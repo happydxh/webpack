@@ -9,6 +9,27 @@ module.exports = {
     filename: 'bundle.[hash:8].js',
     path: path.resolve(__dirname, 'dist') // 出口，此处必须是绝对路径
   },
+  module: {
+    rules: [
+      {
+        test: /\.(css)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader'
+        ]
+      },
+      {
+        test: /\.(less)$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'less-loader'
+        ]
+      }
+    ]
+  },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
