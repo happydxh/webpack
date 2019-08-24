@@ -1,6 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 抽离出 css 样式生成一个文件
 
 module.exports = {
   mode: 'development', // 使用开发模式
@@ -14,7 +15,9 @@ module.exports = {
       {
         test: /\.(css)$/,
         use: [
-          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader // 创建一个link 标签
+          },
           'css-loader',
           'postcss-loader'
         ]
@@ -39,6 +42,11 @@ module.exports = {
         collapseWhitespace: true, // 对index.html压缩
         removeAttributeQuotes: true // 删除""
       }
+    }),
+    // 用 MiniCssExtractPlugin 抽离出 css 文件，以 link 标签的形式引入样式文件
+    new MiniCssExtractPlugin({
+      filename: 'static/css/[name].[contenthash:8].css', // contenthash 文件内容改变便会生成新的hash
+      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
     })
   ]
 };
